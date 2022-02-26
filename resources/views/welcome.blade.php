@@ -31,15 +31,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
       <stats-component></stats-component>
 
-      <div class="w3-container">
-        <div class="w3-row-padding" style="margin:0 -16px">
-          <div class="w3-dark-grey">
-            <h5>Map</h5>
-            <p> Map will be displayed here </p>
-          </div>
-        </div>
-      </div>
-      <hr>
+      <map-component></map-component>
 
       <hr>
       <br>
@@ -49,6 +41,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
 </div>
 <script src="{{ mix('js/app.js') }}"></script>
-
+ <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2zn8qzp4cShlD9h-Xj3EfqGrxVblcfk"
+      async
+    ></script>
 </body>
 </html>
