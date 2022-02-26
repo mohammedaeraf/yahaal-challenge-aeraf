@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Yahaal Challenge - Aeraf</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/x-icon" href="/img/favicon.png">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXQRkRD6kfFvZvjemcqZ85G9VWBGowM_I">
-</script>
-<style>
-html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
+  <title>Yahaal Challenge - Aeraf</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  
+  <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
 </head>
 <body class="w3-light-grey">
   <div id="app">
@@ -39,11 +42,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <p>Created by <a href="https://www.linkedin.com/in/aeraf/" target="_blank">Aeraf Abuhuseina</a></p>
       </footer>
     </div>
-</div>
-<script src="{{ mix('js/app.js') }}"></script>
- <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2zn8qzp4cShlD9h-Xj3EfqGrxVblcfk"
-      async
-    ></script>
+  </div>
+  <script src="{{ mix('js/app.js') }}"></script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2zn8qzp4cShlD9h-Xj3EfqGrxVblcfk"></script>
+
 </body>
 </html>
