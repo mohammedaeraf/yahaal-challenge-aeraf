@@ -5278,6 +5278,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -27885,37 +27894,54 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w3-container" }, [
-    _c("h5", [_vm._v("Gender Stats")]),
-    _vm._v(" "),
-    _c("p", [_vm._v("Male")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "w3-grey" }, [
-      _c(
-        "div",
-        {
-          staticClass: "w3-container w3-center w3-padding w3-blue",
-          style: { width: _vm.malePercent },
-        },
-        [_vm._v(_vm._s(_vm.maleCount))]
-      ),
+  return _c("div", { staticClass: "w3-row-padding w3-margin-bottom" }, [
+    _c("div", { staticClass: "w3-half" }, [
+      _c("div", { staticClass: "w3-container w3-red w3-padding-16" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "w3-right" }, [
+          _c("h3", [_vm._v(_vm._s(_vm.maleCount))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "w3-clear" }),
+        _vm._v(" "),
+        _c("h4", [_vm._v("Male")]),
+      ]),
     ]),
     _vm._v(" "),
-    _c("p", [_vm._v("Female")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "w3-grey" }, [
-      _c(
-        "div",
-        {
-          staticClass: "w3-container w3-center w3-padding w3-pink",
-          style: { width: _vm.femalePercent },
-        },
-        [_vm._v(_vm._s(_vm.femaleCount))]
-      ),
+    _c("div", { staticClass: "w3-half" }, [
+      _c("div", { staticClass: "w3-container w3-blue w3-padding-16" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "w3-right" }, [
+          _c("h3", [_vm._v(_vm._s(_vm.femaleCount))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "w3-clear" }),
+        _vm._v(" "),
+        _c("h4", [_vm._v("Female")]),
+      ]),
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w3-left" }, [
+      _c("i", { staticClass: "fa fa-male w3-xxxlarge" }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w3-left" }, [
+      _c("i", { staticClass: "fa fa-female w3-xxxlarge" }),
+    ])
+  },
+]
 render._withStripped = true
 
 
