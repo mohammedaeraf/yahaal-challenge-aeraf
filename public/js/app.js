@@ -5273,6 +5273,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5330,6 +5335,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.setMarkers();
       }, 2000);
     },
+    // end of initMap()
     setMarkers: function setMarkers() {
       var _this3 = this;
 
@@ -5352,6 +5358,31 @@ __webpack_require__.r(__webpack_exports__);
           infoWindow.open(_this3.map, marker);
         });
       });
+    },
+    // end of setMarkers()
+    filterPersons: function filterPersons(gender) {
+      var _this4 = this;
+
+      setTimeout(function () {
+        return _this4.getPersons();
+      }, 3000);
+
+      if (gender === '') {
+        this.initMap();
+        return true;
+      }
+
+      this.gender = gender;
+
+      var filterPersons = function filterPersons(arr) {
+        return arr.filter(function (el) {
+          if (el.gender === undefined) return false;
+          return el.gender.toString() === _this4.gender ? true : false;
+        });
+      };
+
+      this.persons = filterPersons(this.persons);
+      this.initMap();
     }
   } // end of methods
 
@@ -28072,26 +28103,68 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "w3-container" }, [
+    _c("div", { staticClass: "w3-dropdown-hover" }, [
+      _c("button", { staticClass: "w3-button w3-black" }, [_vm._v("Filter")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w3-dropdown-content w3-bar-block w3-border" }, [
+        _c(
+          "a",
+          {
+            staticClass: "w3-bar-item w3-button",
+            attrs: { href: "#" },
+            on: {
+              click: function ($event) {
+                return _vm.filterPersons("")
+              },
+            },
+          },
+          [_vm._v("All")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "w3-bar-item w3-button",
+            attrs: { href: "#" },
+            on: {
+              click: function ($event) {
+                return _vm.filterPersons("Male")
+              },
+            },
+          },
+          [_vm._v("Male")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "w3-bar-item w3-button",
+            attrs: { href: "#" },
+            on: {
+              click: function ($event) {
+                return _vm.filterPersons("Female")
+              },
+            },
+          },
+          [_vm._v("Female")]
+        ),
+      ]),
+    ]),
+    _vm._v(" "),
+    _vm._m(0),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w3-container" }, [
-      _c(
-        "div",
-        { staticClass: "w3-row-padding", staticStyle: { margin: "0 -16px" } },
-        [
-          _c("div", { staticClass: "w3-dark-grey" }, [
-            _c("h5", [_vm._v("Map")]),
-            _vm._v(" "),
-            _c("div", { attrs: { id: "map" } }),
-          ]),
-        ]
-      ),
-    ])
+    return _c(
+      "div",
+      { staticClass: "w3-row-padding", staticStyle: { margin: "0 -16px" } },
+      [_c("div", { attrs: { id: "map" } })]
+    )
   },
 ]
 render._withStripped = true

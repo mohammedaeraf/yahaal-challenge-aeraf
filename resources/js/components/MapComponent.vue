@@ -1,5 +1,13 @@
 <template>
     <div class="w3-container">
+        <div class="w3-dropdown-hover">
+            <button class="w3-button w3-black">Filter</button>
+            <div class="w3-dropdown-content w3-bar-block w3-border">
+                <a href="#" @click="filterPersons('')" class="w3-bar-item w3-button">All</a>
+                <a href="#" @click="filterPersons('Male')" class="w3-bar-item w3-button">Male</a>
+                <a href="#" @click="filterPersons('Female')" class="w3-bar-item w3-button">Female</a>
+            </div>
+        </div>
         <div class="w3-row-padding" style="margin:0 -16px">
             <div id="map"></div>
         </div>
@@ -62,7 +70,8 @@
 
                 }, 2000)
                 
-            },
+            },  // end of initMap()
+
             setMarkers() {
                 this.persons.map((person) => {
                     let contentString = `
@@ -95,7 +104,32 @@
                     });
                 })
 
-            }
+            },  // end of setMarkers()
+
+            filterPersons(gender) {
+
+                setTimeout(() => this.getPersons(), 3000);
+
+                if (gender === '') {
+                    this.initMap();
+                    return true;
+                }
+
+                this.gender = gender;
+
+                let filterPersons = (arr) => {
+                    return arr.filter((el) => {
+                        if (el.gender === undefined) return false;
+
+                        return el.gender.toString() === this.gender ? true : false;
+                    })
+                }
+
+                this.persons = filterPersons(this.persons);
+                this.initMap();
+
+            },
+
         } // end of methods
     } // end of component
 </script>
