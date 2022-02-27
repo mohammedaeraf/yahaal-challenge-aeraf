@@ -36,18 +36,14 @@
             }
         },
         mounted() {
-            this.getData();
+            this.getPersons();
         },
         methods: {
-            getData() {
-                console.log('calling api')
+            getPersons() {
                 axios.get('/api/persons')
                     .then(response => {
-                        console.log(response)
                         this.persons = response.data;
-                        console.log(this.persons)
                         this.totalCount = this.persons.length;
-
                         this.persons.filter((person) => {
                             person.gender === 'Male' ? this.maleCount++ : this.femaleCount++ ;
                         })

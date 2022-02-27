@@ -5275,31 +5275,87 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      persons: '',
+      searchText: '',
+      map: null,
+      mapCenter: {
+        lat: 0,
+        lng: 0
+      },
+      gender: '',
+      selectedCity: 'none',
+      selectedCityObj: '',
+      cities: [{
+        title: 'London',
+        lat: '51.5285582',
+        lon: '-0.2416808'
+      }, {
+        title: 'Paris',
+        lat: '48.8588377',
+        lon: '2.2770203'
+      }, {
+        title: 'Kansas',
+        lat: '39.0915837',
+        lon: '-94.8559036'
+      }]
+    };
   },
   mounted: function mounted() {
-    console.log('loading map');
+    this.getPersons();
     this.initMap();
   },
   methods: {
+    getPersons: function getPersons() {
+      var _this = this;
+
+      axios.get('/api/persons').then(function (response) {
+        _this.persons = response.data;
+      })["catch"](function (err) {
+        return console.error(err);
+      });
+    },
     initMap: function initMap() {
+      var _this2 = this;
+
       setTimeout(function () {
-        var uluru = {
-          lat: -25.344,
-          lng: 131.036
-        };
-        var map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 4,
-          center: uluru
+        _this2.map = new google.maps.Map(document.getElementById('map'), {
+          center: _this2.mapCenter,
+          zoom: 1,
+          maxZoom: 20,
+          minZoom: 3,
+          zoomControl: true
         });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
+
+        _this2.setMarkers();
       }, 2000);
+    },
+    setMarkers: function setMarkers() {
+      var _this3 = this;
+
+      this.persons.map(function (person) {
+        var contentString = "\n                    <div class=\"w3-card w3-light-grey\">\n                        <h5>".concat(person.first_name, " ").concat(person.last_name, "</h5>\n                        <p>").concat(person.gender, "</p>\n                        <p>").concat(person.lat, " ").concat(person.lon, "</p>\n                    </div>\n                    ");
+        var infoWindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        var iconUrl = "http://maps.google.com/mapfiles/ms/icons/";
+        var markerColor = person.gender === 'Male' ? 'blue' : 'pink';
+        iconUrl += markerColor + "-dot.png";
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(person.lat, person.lon),
+          map: _this3.map,
+          icon: {
+            url: iconUrl
+          }
+        });
+        marker.addListener("click", function () {
+          infoWindow.open(_this3.map, marker);
+        });
+      });
     }
-  }
-});
+  } // end of methods
+
+}); // end of component
 
 /***/ }),
 
@@ -5351,17 +5407,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getData();
+    this.getPersons();
   },
   methods: {
-    getData: function getData() {
+    getPersons: function getPersons() {
       var _this = this;
 
-      console.log('calling api');
       axios.get('/api/persons').then(function (response) {
-        console.log(response);
         _this.persons = response.data;
-        console.log(_this.persons);
         _this.totalCount = _this.persons.length;
 
         _this.persons.filter(function (person) {
