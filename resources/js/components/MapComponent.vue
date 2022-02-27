@@ -23,6 +23,7 @@
                 searchText: '',
                 map: null,
                 mapCenter: {lat: 0, lng: 0},
+                markers: [],
                 gender: '',
                 selectedCity: 'none',
                 selectedCityObj: '',
@@ -95,7 +96,7 @@
 
                     let marker = new google.maps.Marker({
                         position: new google.maps.LatLng(person.lat, person.lon),
-                        map: this.map,
+                        //map: this.map,
                         icon: {
                             url: iconUrl
                         }
@@ -104,9 +105,32 @@
                     marker.addListener("click", () => {
                         infoWindow.open(this.map, marker);
                     });
-                })
+
+                    this.markers.push(marker);
+                }); // end of this.persons.map
+
+                this.displayMarkers();
 
             },  // end of setMarkers()
+
+            displayMarkers() {
+                for (let i = 0; i < this.markers.length; i++) {
+                    this.markers[i].setMap(this.map);
+                }
+            },
+
+            deleteMarkers() {
+
+                for (let marker of this.markers) {
+                    marker.setMap(null);
+                }
+                this.markers = [];
+            },
+
+            resetMarkers() {
+                this.deleteMarkers();
+                this.setMarkers();
+            },
 
             filterPersons(gender) {
 
@@ -128,7 +152,7 @@
                 }
 
                 this.persons = filterPersons(this.personsAll);
-                this.initMap();
+                this.resetMarkers();
             },
 
         } // end of methods
