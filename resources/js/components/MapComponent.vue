@@ -19,6 +19,7 @@
         data() {
             return {
                 persons: '',
+                personsAll: '',
                 searchText: '',
                 map: null,
                 mapCenter: {lat: 0, lng: 0},
@@ -52,7 +53,8 @@
             getPersons() {
                 axios.get('/api/persons')
                 .then(response => {
-                    this.persons = response.data;
+                    this.personsAll = response.data;
+                    this.persons = this.personsAll;
                 })
                 .catch(err => console.error(err));
             },
@@ -125,9 +127,8 @@
                     })
                 }
 
-                this.persons = filterPersons(this.persons);
+                this.persons = filterPersons(this.personsAll);
                 this.initMap();
-
             },
 
         } // end of methods

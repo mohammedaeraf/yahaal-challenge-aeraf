@@ -5282,6 +5282,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       persons: '',
+      personsAll: '',
       searchText: '',
       map: null,
       mapCenter: {
@@ -5315,7 +5316,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/persons').then(function (response) {
-        _this.persons = response.data;
+        _this.personsAll = response.data;
+        _this.persons = _this.personsAll;
       })["catch"](function (err) {
         return console.error(err);
       });
@@ -5381,7 +5383,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       };
 
-      this.persons = filterPersons(this.persons);
+      this.persons = filterPersons(this.personsAll);
       this.initMap();
     }
   } // end of methods
