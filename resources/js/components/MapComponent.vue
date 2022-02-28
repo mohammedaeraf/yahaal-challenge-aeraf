@@ -88,7 +88,6 @@ import ExampleComponent from '../../../vendor/laravel/ui/src/Presets/vue-stubs/E
                     zoomControl: true
                 });
                 this.setMarkers();
-                
 
                 }, 2000)
                 
