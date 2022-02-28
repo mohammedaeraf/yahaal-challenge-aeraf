@@ -5295,8 +5295,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5310,8 +5308,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       },
       markers: [],
       gender: '',
-      selectedCity: 'none',
-      selectedCityObj: '',
       cities: [{
         title: 'London',
         lat: '51.509865',
@@ -5465,8 +5461,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.resetMarkers();
     },
     filterPersonsByCity: function filterPersonsByCity(cityTitle) {
-      //setTimeout(() => this.getRecords(), 3000);
       if (cityTitle === '') {
+        this.persons = this.personsAll;
         this.resetMarkers();
         return true;
       }
@@ -5503,6 +5499,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       };
 
       this.persons = filterPersons(this.personsAll);
+      this.mapCenter = new google.maps.LatLng(cityObj[0].lat, cityObj[0].lon);
+      this.map.panTo(this.mapCenter);
       this.resetMarkers();
     }
   } // end of methods
@@ -28317,11 +28315,7 @@ var render = function () {
                     },
                   },
                 },
-                [
-                  _vm._v(
-                    "\n                " + _vm._s(city.title) + "\n            "
-                  ),
-                ]
+                [_vm._v(_vm._s(city.title))]
               )
             }),
           ],

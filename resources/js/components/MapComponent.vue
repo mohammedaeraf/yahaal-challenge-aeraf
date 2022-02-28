@@ -11,11 +11,9 @@
         <div class="w3-dropdown-hover w3-third">
             <button class="w3-button w3-blue">Filter by City (within 2000 Km)</button>
             <div class="w3-dropdown-content w3-bar-block w3-border">
-                <a href="#"  class="w3-bar-item w3-button" @click="filterPersonsByCity('')">None</a>
+                <a href="#" class="w3-bar-item w3-button" @click="filterPersonsByCity('')">None</a>
                 <a v-for="city in cities" :value="city.title" @click="filterPersonsByCity(city.title)"
-                 href="#"  class="w3-bar-item w3-button">
-                    {{ city.title }}
-                </a>
+                 href="#"  class="w3-bar-item w3-button">{{ city.title }}</a>
             </div>
         </div>
          <div class="w3-third">
@@ -38,8 +36,6 @@
                 mapCenter: {lat: 0, lng: 0},
                 markers: [],
                 gender: '',
-                selectedCity: 'none',
-                selectedCityObj: '',
                 cities: [
                     {
                         title: 'London',
@@ -77,6 +73,7 @@
                 })
                 .catch(err => console.error(err));
             },
+
             initMap() {
                 setTimeout(() => {
                     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -200,9 +197,11 @@
             },
 
             filterPersonsByCity(cityTitle) {
-                //setTimeout(() => this.getRecords(), 3000);
-
+                // show all persons, reset center and markers
                 if (cityTitle === ''){
+                    this.persons = this.personsAll;
+                    this.mapCenter = new google.maps.LatLng(0,0);
+                    this.map.panTo(this.mapCenter);
                     this.resetMarkers();
                     return true;
                 }
@@ -242,9 +241,11 @@
 
                 this.persons = filterPersons(this.personsAll);
 
+                this.mapCenter = new google.maps.LatLng(cityObj[0].lat,cityObj[0].lon);
+                this.map.panTo(this.mapCenter);
                 this.resetMarkers();
+                
             }
-
         } // end of methods
     } // end of component
 </script>
