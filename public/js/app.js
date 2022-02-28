@@ -5361,7 +5361,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         });
 
         _this2.setMarkers();
-      }, 5000);
+      }, 2000);
     },
     // end of initMap()
     setMarkers: function setMarkers() {
