@@ -13,10 +13,10 @@
             <div class="w3-dropdown-content w3-bar-block w3-border">
                 <a href="#" class="w3-bar-item w3-button" @click="filterPersonsByCity('')">None</a>
                 <a v-for="city in cities" :value="city.title" @click="filterPersonsByCity(city.title)"
-                 href="#"  class="w3-bar-item w3-button">{{ city.title }}</a>
+                href="#"  class="w3-bar-item w3-button">{{ city.title }}</a>
             </div>
         </div>
-         <div class="w3-third">
+        <div class="w3-third">
             <input v-model="searchText" class="w3-input" type="text" placeholder="Enter letter to search" maxlength="1">
         </div>
         <div class="w3-row-padding" style="margin:0 -16px">
@@ -26,7 +26,9 @@
 </template>
 
 <script>
+import ExampleComponent from '../../../vendor/laravel/ui/src/Presets/vue-stubs/ExampleComponent.vue';
     export default {
+  components: { ExampleComponent },
         data() {
             return {
                 persons: '',
@@ -56,8 +58,10 @@
             }
         },
         mounted() {
+            
             this.getPersons();
             this.initMap();
+            
         },
         watch: {
             searchText: function (oldValue, newValue) {
@@ -83,8 +87,8 @@
                     minZoom: 3,
                     zoomControl: true
                 });
-
                 this.setMarkers();
+                
 
                 }, 2000)
                 
