@@ -5287,6 +5287,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5304,16 +5314,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       selectedCityObj: '',
       cities: [{
         title: 'London',
-        lat: '51.5285582',
-        lon: '-0.2416808'
+        lat: '51.509865',
+        lon: '-0.118092'
       }, {
         title: 'Paris',
-        lat: '48.8588377',
-        lon: '2.2770203'
+        lat: '48.864716',
+        lon: '2.349014'
       }, {
         title: 'Kansas',
-        lat: '39.0915837',
-        lon: '-94.8559036'
+        lat: '39.011902',
+        lon: '-98.484245'
       }]
     };
   },
@@ -5323,7 +5333,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   watch: {
     searchText: function searchText(oldValue, newValue) {
-      this.filterRecords(oldValue);
+      this.filterPersonsByName(oldValue);
     }
   },
   methods: {
@@ -5429,7 +5439,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.persons = filterPersons(this.personsAll);
       this.resetMarkers();
     },
-    filterRecords: function filterRecords(value) {
+    filterPersonsByName: function filterPersonsByName(value) {
       var filterItems = function filterItems(persons, searchStr) {
         return persons.filter(function (person) {
           if (person.first_name === undefined) {
@@ -5452,6 +5462,47 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.persons = this.personsAll;
       }
 
+      this.resetMarkers();
+    },
+    filterPersonsByCity: function filterPersonsByCity(cityTitle) {
+      //setTimeout(() => this.getRecords(), 3000);
+      if (cityTitle === '') {
+        this.resetMarkers();
+        return true;
+      }
+
+      var cityObj = this.cities.filter(function (city) {
+        return city.title === cityTitle;
+      });
+
+      var filterPersons = function filterPersons(persons) {
+        return persons.filter(function (person) {
+          if (person.first_name === undefined) {
+            return false;
+          }
+
+          var p1 = new google.maps.LatLng(cityObj[0].lat, cityObj[0].lon);
+          var p2 = new google.maps.LatLng(person.lat, person.lon);
+
+          var rad = function rad(x) {
+            return x * Math.PI / 180;
+          };
+
+          var R = 6378137;
+          var dLat = rad(p2.lat() - p1.lat());
+          var dLong = rad(p2.lng() - p1.lng());
+          var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          var distInMetres = R * c;
+          var distInKm = distInMetres / 1000;
+
+          if (distInKm < 2000) {
+            return true;
+          }
+        });
+      };
+
+      this.persons = filterPersons(this.personsAll);
       this.resetMarkers();
     }
   } // end of methods
@@ -28173,87 +28224,142 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w3-container" }, [
-    _c("div", { staticClass: "w3-dropdown-hover w3-half" }, [
-      _c("button", { staticClass: "w3-button w3-lightgray" }, [
-        _vm._v("Filter"),
+  return _c(
+    "div",
+    { staticClass: "w3-container w3-row-padding w3-margin-bottom" },
+    [
+      _c("div", { staticClass: "w3-dropdown-hover w3-third" }, [
+        _c("button", { staticClass: "w3-button w3-lightgray" }, [
+          _vm._v("Filter by Gender"),
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "w3-dropdown-content w3-bar-block w3-border" },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "w3-bar-item w3-button",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    return _vm.filterPersonsByGender("")
+                  },
+                },
+              },
+              [_vm._v("All")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "w3-bar-item w3-button",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    return _vm.filterPersonsByGender("Male")
+                  },
+                },
+              },
+              [_vm._v("Male")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "w3-bar-item w3-button",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    return _vm.filterPersonsByGender("Female")
+                  },
+                },
+              },
+              [_vm._v("Female")]
+            ),
+          ]
+        ),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "w3-dropdown-content w3-bar-block w3-border" }, [
-        _c(
-          "a",
-          {
-            staticClass: "w3-bar-item w3-button",
-            attrs: { href: "#" },
-            on: {
-              click: function ($event) {
-                return _vm.filterPersonsByGender("")
-              },
-            },
-          },
-          [_vm._v("All")]
-        ),
+      _c("div", { staticClass: "w3-dropdown-hover w3-third" }, [
+        _c("button", { staticClass: "w3-button w3-blue" }, [
+          _vm._v("Filter by City (within 2000 Km)"),
+        ]),
         _vm._v(" "),
         _c(
-          "a",
-          {
-            staticClass: "w3-bar-item w3-button",
-            attrs: { href: "#" },
-            on: {
-              click: function ($event) {
-                return _vm.filterPersonsByGender("Male")
+          "div",
+          { staticClass: "w3-dropdown-content w3-bar-block w3-border" },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "w3-bar-item w3-button",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    return _vm.filterPersonsByCity("")
+                  },
+                },
               },
-            },
-          },
-          [_vm._v("Male")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "w3-bar-item w3-button",
-            attrs: { href: "#" },
-            on: {
-              click: function ($event) {
-                return _vm.filterPersonsByGender("Female")
-              },
-            },
-          },
-          [_vm._v("Female")]
+              [_vm._v("None")]
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.cities, function (city) {
+              return _c(
+                "a",
+                {
+                  staticClass: "w3-bar-item w3-button",
+                  attrs: { value: city.title, href: "#" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.filterPersonsByCity(city.title)
+                    },
+                  },
+                },
+                [
+                  _vm._v(
+                    "\n                " + _vm._s(city.title) + "\n            "
+                  ),
+                ]
+              )
+            }),
+          ],
+          2
         ),
       ]),
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "w3-half" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.searchText,
-            expression: "searchText",
+      _vm._v(" "),
+      _c("div", { staticClass: "w3-third" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchText,
+              expression: "searchText",
+            },
+          ],
+          staticClass: "w3-input",
+          attrs: {
+            type: "text",
+            placeholder: "Enter letter to search",
+            maxlength: "1",
           },
-        ],
-        staticClass: "w3-input",
-        attrs: {
-          type: "text",
-          placeholder: "Enter letter to search",
-          maxlength: "1",
-        },
-        domProps: { value: _vm.searchText },
-        on: {
-          input: function ($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.searchText = $event.target.value
+          domProps: { value: _vm.searchText },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.searchText = $event.target.value
+            },
           },
-        },
-      }),
-    ]),
-    _vm._v(" "),
-    _vm._m(0),
-  ])
+        }),
+      ]),
+      _vm._v(" "),
+      _vm._m(0),
+    ]
+  )
 }
 var staticRenderFns = [
   function () {
