@@ -1,12 +1,15 @@
 <template>
     <div class="w3-container">
-        <div class="w3-dropdown-hover">
-            <button class="w3-button w3-black">Filter</button>
+        <div class="w3-dropdown-hover w3-half">
+            <button class="w3-button w3-lightgray">Filter</button>
             <div class="w3-dropdown-content w3-bar-block w3-border">
-                <a href="#" @click="filterPersons('')" class="w3-bar-item w3-button">All</a>
-                <a href="#" @click="filterPersons('Male')" class="w3-bar-item w3-button">Male</a>
-                <a href="#" @click="filterPersons('Female')" class="w3-bar-item w3-button">Female</a>
+                <a href="#" @click="filterPersonsByGender('')" class="w3-bar-item w3-button">All</a>
+                <a href="#" @click="filterPersonsByGender('Male')" class="w3-bar-item w3-button">Male</a>
+                <a href="#" @click="filterPersonsByGender('Female')" class="w3-bar-item w3-button">Female</a>
             </div>
+        </div>
+         <div class="w3-half">
+            <input v-model="searchText" class="w3-input" type="text" placeholder="Enter letter to search" maxlength="1">
         </div>
         <div class="w3-row-padding" style="margin:0 -16px">
             <div id="map"></div>
@@ -49,6 +52,11 @@
         mounted() {
             this.getPersons();
             this.initMap();
+        },
+        watch: {
+            searchText: function (oldValue, newValue) {
+                this.filterRecords(oldValue);
+            }
         },
         methods: {
             getPersons() {
@@ -132,26 +140,52 @@
                 this.setMarkers();
             },
 
-            filterPersons(gender) {
+            filterPersonsByGender(gender) {
 
-                setTimeout(() => this.getPersons(), 3000);
-
+                // if all selected, load all persons data and reset markers
                 if (gender === '') {
-                    this.initMap();
+                    this.persons = this.personsAll;
+                    this.resetMarkers();
                     return true;
                 }
 
                 this.gender = gender;
 
-                let filterPersons = (arr) => {
-                    return arr.filter((el) => {
-                        if (el.gender === undefined) return false;
+                let filterPersons = (persons) => {
+                    return persons.filter((person) => {
+                        if (person.gender === undefined) return false;
 
-                        return el.gender.toString() === this.gender ? true : false;
+                        return person.gender.toString() === this.gender ? true : false;
                     })
                 }
 
                 this.persons = filterPersons(this.personsAll);
+                this.resetMarkers();
+            },
+
+            filterRecords(value) {
+
+                const filterItems = (persons, searchStr) => {
+                    return persons.filter((person) => {
+                        if (person.first_name === undefined) {
+                            return false;
+                        }
+                        searchStr = searchStr.toLowerCase();
+                        let fName = person.first_name.toLowerCase();
+                        let lName = person.last_name.toLowerCase();
+
+                        if ( fName.startsWith(searchStr) || lName.startsWith(searchStr) ) {
+                            return true;
+                        }
+                    })
+                }
+
+                this.persons = filterItems(this.personsAll, this.searchText);
+
+                if (value === '') {
+                    this.persons = this.personsAll;
+                }
+
                 this.resetMarkers();
             },
 

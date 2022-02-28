@@ -5284,6 +5284,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5317,6 +5320,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   mounted: function mounted() {
     this.getPersons();
     this.initMap();
+  },
+  watch: {
+    searchText: function searchText(oldValue, newValue) {
+      this.filterRecords(oldValue);
+    }
   },
   methods: {
     getPersons: function getPersons() {
@@ -5399,28 +5407,51 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.deleteMarkers();
       this.setMarkers();
     },
-    filterPersons: function filterPersons(gender) {
+    filterPersonsByGender: function filterPersonsByGender(gender) {
       var _this4 = this;
 
-      setTimeout(function () {
-        return _this4.getPersons();
-      }, 3000);
-
+      // if all selected, load all persons data and reset markers
       if (gender === '') {
-        this.initMap();
+        this.persons = this.personsAll;
+        this.resetMarkers();
         return true;
       }
 
       this.gender = gender;
 
-      var filterPersons = function filterPersons(arr) {
-        return arr.filter(function (el) {
-          if (el.gender === undefined) return false;
-          return el.gender.toString() === _this4.gender ? true : false;
+      var filterPersons = function filterPersons(persons) {
+        return persons.filter(function (person) {
+          if (person.gender === undefined) return false;
+          return person.gender.toString() === _this4.gender ? true : false;
         });
       };
 
       this.persons = filterPersons(this.personsAll);
+      this.resetMarkers();
+    },
+    filterRecords: function filterRecords(value) {
+      var filterItems = function filterItems(persons, searchStr) {
+        return persons.filter(function (person) {
+          if (person.first_name === undefined) {
+            return false;
+          }
+
+          searchStr = searchStr.toLowerCase();
+          var fName = person.first_name.toLowerCase();
+          var lName = person.last_name.toLowerCase();
+
+          if (fName.startsWith(searchStr) || lName.startsWith(searchStr)) {
+            return true;
+          }
+        });
+      };
+
+      this.persons = filterItems(this.personsAll, this.searchText);
+
+      if (value === '') {
+        this.persons = this.personsAll;
+      }
+
       this.resetMarkers();
     }
   } // end of methods
@@ -28143,8 +28174,10 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "w3-container" }, [
-    _c("div", { staticClass: "w3-dropdown-hover" }, [
-      _c("button", { staticClass: "w3-button w3-black" }, [_vm._v("Filter")]),
+    _c("div", { staticClass: "w3-dropdown-hover w3-half" }, [
+      _c("button", { staticClass: "w3-button w3-lightgray" }, [
+        _vm._v("Filter"),
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "w3-dropdown-content w3-bar-block w3-border" }, [
         _c(
@@ -28154,7 +28187,7 @@ var render = function () {
             attrs: { href: "#" },
             on: {
               click: function ($event) {
-                return _vm.filterPersons("")
+                return _vm.filterPersonsByGender("")
               },
             },
           },
@@ -28168,7 +28201,7 @@ var render = function () {
             attrs: { href: "#" },
             on: {
               click: function ($event) {
-                return _vm.filterPersons("Male")
+                return _vm.filterPersonsByGender("Male")
               },
             },
           },
@@ -28182,13 +28215,41 @@ var render = function () {
             attrs: { href: "#" },
             on: {
               click: function ($event) {
-                return _vm.filterPersons("Female")
+                return _vm.filterPersonsByGender("Female")
               },
             },
           },
           [_vm._v("Female")]
         ),
       ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "w3-half" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.searchText,
+            expression: "searchText",
+          },
+        ],
+        staticClass: "w3-input",
+        attrs: {
+          type: "text",
+          placeholder: "Enter letter to search",
+          maxlength: "1",
+        },
+        domProps: { value: _vm.searchText },
+        on: {
+          input: function ($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.searchText = $event.target.value
+          },
+        },
+      }),
     ]),
     _vm._v(" "),
     _vm._m(0),
