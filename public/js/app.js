@@ -5461,8 +5461,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.resetMarkers();
     },
     filterPersonsByCity: function filterPersonsByCity(cityTitle) {
+      // show all persons, reset center and markers
       if (cityTitle === '') {
         this.persons = this.personsAll;
+        this.mapCenter = new google.maps.LatLng(0, 0);
+        this.map.panTo(this.mapCenter);
         this.resetMarkers();
         return true;
       }
@@ -5520,6 +5523,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -28390,9 +28403,23 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "w3-row-padding w3-margin-bottom" }, [
-    _c("div", { staticClass: "w3-half" }, [
-      _c("div", { staticClass: "w3-container w3-blue w3-padding-16" }, [
+    _c("div", { staticClass: "w3-third" }, [
+      _c("div", { staticClass: "w3-container w3-gray w3-padding-16" }, [
         _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "w3-right" }, [
+          _c("h3", [_vm._v(_vm._s(_vm.totalCount))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "w3-clear" }),
+        _vm._v(" "),
+        _c("h4", [_vm._v("All")]),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "w3-third" }, [
+      _c("div", { staticClass: "w3-container w3-blue w3-padding-16" }, [
+        _vm._m(1),
         _vm._v(" "),
         _c("div", { staticClass: "w3-right" }, [
           _c("h3", [_vm._v(_vm._s(_vm.maleCount))]),
@@ -28404,9 +28431,9 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "w3-half" }, [
+    _c("div", { staticClass: "w3-third" }, [
       _c("div", { staticClass: "w3-container w3-pink w3-padding-16" }, [
-        _vm._m(1),
+        _vm._m(2),
         _vm._v(" "),
         _c("div", { staticClass: "w3-right" }, [
           _c("h3", [_vm._v(_vm._s(_vm.femaleCount))]),
@@ -28425,7 +28452,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "w3-left" }, [
-      _c("i", { staticClass: "fa fa-male w3-xxxlarge" }),
+      _c("i", { staticClass: "fa fa-people w3-xlarge" }),
     ])
   },
   function () {
@@ -28433,7 +28460,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "w3-left" }, [
-      _c("i", { staticClass: "fa fa-female w3-xxxlarge" }),
+      _c("i", { staticClass: "fa fa-male w3-xlarge" }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w3-left" }, [
+      _c("i", { staticClass: "fa fa-female w3-xlarge" }),
     ])
   },
 ]
